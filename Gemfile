@@ -29,12 +29,10 @@ gem 'spring',        group: :development
 group :development, :test do 
   gem 'rspec-rails', '~> 3.1'
 
-  gem 'pry-rails'
-  gem 'pry'
   gem 'pry-nav'
-  gem 'pry-doc'
   gem 'pry-coolline'
-  gem 'awesome_print'
+  gem 'pry-aa_ancestors'
+  gem 'super-pry-rails'
 
   gem 'guard-rspec'
   gem 'guard'
@@ -56,6 +54,10 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'ffaker'
+  gem 'ffakerer'
+  gem 'faker_seed'
+  gem 'faker-fu'
+  gem 'cool_faker'
   gem 'capybara'
 end
 # Use ActiveModel has_secure_password
