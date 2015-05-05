@@ -1,15 +1,25 @@
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe Project do 
-  it 'considers a preoject with no tasks to be done' do 
-    project = Project.new
-    expect(project.done?).to be_truthy
-  end
+RSpec.describe Project do
 
-  it 'knows that a project with an incomplete task is not done' do
-    project = Project.new
-    task = Task.new
-    project.tasks << task
-    expect(project.done?).to be_falsy
+  describe "initialization" do
+    let(:project) { Project.new }
+    let(:task) { Task.new }
+
+    it "considers a project with no test to be done" do
+      expect(project).to be_done
+    end
+
+    it "knows that a project with an incomplete test is not done" do
+      project.tasks << task
+      expect(project).not_to be_done
+    end
+
+    it "marks a project done if its tasks are done" do
+      project.tasks << task
+      task.mark_completed
+      expect(project).to be_done
+    end
   end
 end
+
