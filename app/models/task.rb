@@ -22,4 +22,5 @@ class Task
   def points_toward_velocity
     if part_of_velocity? then size else 0 end
   end
+
 end
