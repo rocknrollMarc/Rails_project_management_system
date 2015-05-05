@@ -39,7 +39,6 @@ group :development, :test do
   gem 'guard-rails'
   gem 'guard-bundler'
   gem 'rubocop'
-  gem 'guard-rubocop'
   gem 'terminal-notifier-guard'
   gem 'ruby-growl'
 
