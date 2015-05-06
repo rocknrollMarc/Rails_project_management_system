@@ -1,46 +1,72 @@
 require 'rails_helper'
 
-RSpec.describe ProjectsController, type: :controller do
+RSpec.describe Project do
 
-  describe "POST create" do
-    it "creates a project" do
-      post :create, project: {name: "Runway", tasks: "Start something:2"} 
-      expect(response).to redirect_to(projects_path) 
-      expect(assigns(:action).project.name).to eq("Runway")  
+  describe "initialization" do
+    let(:project) { Project.new }
+    let(:task) { Task.new }
+
+    it "considers a project with no test to be done" do
+      expect(project).to be_done
     end
 
-    it "creates a project (mock version)" do
-      fake_action = instance_double(CreatesProject, create: true) 
-      expect(CreatesProject).to receive(:new)  
-          .with(name: "Runway", task_string: "start something:2")
-          .and_return(fake_action)
-      post :create, project: {name: "Runway", tasks: "start something:2"}
-      expect(response).to redirect_to(projects_path)
-      expect(assigns(:action)).not_to be_nil 
+    it "knows that a project with an incomplete test is not done" do
+      project.tasks << task
+      expect(project).not_to be_done
     end
 
-    it "goes back to the form on failure" do
-      post :create, project: {name: "", tasks: ""} 
-      expect(response).to render_template(:new)
-      expect(assigns(:project)).to be_present
+    it "marks a project done if its tasks are done" do
+      project.tasks << task
+      task.mark_completed
+      expect(project).to be_done
     end
 
-    it "fails create gracefully" do
-      action_stub = double(create: false, project: Project.new) 
-      expect(CreatesProject).to receive(:new).and_return(action_stub) 
-      post :create, :project => {name: 'Project Runway'} 
-      expect(response).to render_template(:new) 
+    it "properly estimates a blank project" do
+      expect(project.completed_velocity).to eq(0)
+      expect(project.current_rate).to eq(0)
+      expect(project.projected_days_remaining.nan?).to be_truthy
+      expect(project).not_to be_on_schedule
     end
   end
 
-  describe "PATCH update" do
-    it "fails update gracefully" do
-      sample = Project.create!(name: "Test Project")
-      expect(sample).to receive(:update_attributes).and_return(false) 
-      allow(Project).to receive(:find).and_return(sample) 
-      patch :update, id: sample.id, project: {name: "Fred"} 
-      expect(response).to render_template(:edit) 
+  describe "estimates" do
+    let(:project) { Project.new }
+    let(:newly_done) { Task.new(size: 3, completed_at: 1.day.ago) }
+    let(:old_done) { Task.new(size: 2, completed_at: 6.months.ago) }
+    let(:small_not_done) { Task.new(size: 1) }
+    let(:large_not_done) { Task.new(size: 4) }
+
+    before(:example) do
+      project.tasks = [newly_done, old_done, small_not_done, large_not_done]
+    end
+
+    it "can calculate total size" do
+      expect(project).to be_of_size(10)
+      expect(project).to be_of_size(5).for_incomplete_tasks_only
+    end
+
+    it "can calculate remaining size" do
+      expect(project.remaining_size).to eq(5)
+    end
+
+    it "knows its velocity" do
+      expect(project.completed_velocity).to eq(3)
+    end
+
+    it "knows its rate" do
+      expect(project.current_rate).to eq(1.0 / 7) 
+    end
+
+    it "knows its projected time remaining" do
+      expect(project.projected_days_remaining).to eq(35) 
+    end
+
+    it "knows if it is on schedule" do
+      project.due_date = 1.week.from_now
+      expect(project).not_to be_on_schedule
+      project.due_date = 6.months.from_now
+      expect(project).to be_on_schedule
     end
   end
-
 end
+
