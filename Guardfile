@@ -104,6 +104,7 @@ guard :rspec, cmd: "bundle exec rspec" do
 
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
+  watch(%r{^app/views/**/(.+)\.html.erb$})
   watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
     Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
   end
