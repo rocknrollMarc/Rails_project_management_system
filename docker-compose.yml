@@ -1,5 +1,5 @@
 db:
-  image: sqlite3
+  image: sqlite
   ports:
     - "3306"
 
