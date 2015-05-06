@@ -92,9 +92,10 @@ GEM
     ffakerer (1.0.2)
     ffi (1.9.8)
     formatador (0.2.5)
-    grit (2.0.0)
-      diff-lcs (>= 1.1.2)
-      mime-types (>= 1.15)
+    grit (2.5.0)
+      diff-lcs (~> 1.1)
+      mime-types (~> 1.15)
+      posix-spawn (~> 0.3.6)
     guard (2.12.5)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -143,7 +144,7 @@ GEM
       rack-contrib (~> 1.1)
       railties (>= 3.0.0, < 5.0.0)
     method_source (0.8.2)
-    mime-types (2.5)
+    mime-types (1.25.1)
     mini_portile (0.6.2)
     minitest (5.6.1)
     multi_json (1.11.0)
@@ -160,6 +161,8 @@ GEM
       mime-types
     parser (2.2.2.2)
       ast (>= 1.1, < 3.0)
+    pg (0.18.1)
+    posix-spawn (0.3.11)
     powerpack (0.1.1)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -193,7 +196,7 @@ GEM
       pry
     pry-rails (0.3.4)
       pry (>= 0.9.10)
-    pry-rescue (1.4.1)
+    pry-rescue (1.4.2)
       interception (>= 0.5)
       pry
     pry-stack_explorer (0.4.9.2)
@@ -254,7 +257,7 @@ GEM
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    rubocop (0.30.1)
+    rubocop (0.31.0)
       astrolabe (~> 1.3)
       parser (>= 2.2.2.1, < 3.0)
       powerpack (~> 0.1)
@@ -284,7 +287,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sqlite3 (1.3.10)
     super-pry (0.0.1)
       awesome_print
       bond
@@ -348,6 +350,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   meta_request
+  pg
   pry-aa_ancestors
   pry-coolline
   pry-nav
@@ -359,7 +362,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring
-  sqlite3
   super-pry-rails
   terminal-notifier-guard
   turbolinks

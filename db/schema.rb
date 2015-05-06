@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150505163010) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "projects", force: true do |t|
     t.string   "name"
     t.date     "due_date"
@@ -29,6 +32,6 @@ ActiveRecord::Schema.define(version: 20150505163010) do
     t.datetime "updated_at"
   end
 
-  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id"
+  add_index "tasks", ["project_id"], name: "index_tasks_on_project_id", using: :btree
 
 end
