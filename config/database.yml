@@ -6,9 +6,9 @@
 #
 default: &default
   user: marc
-  adapter: pg
+  encoding: utf8
+  adapter: postgresql
   pool: 5
-  timeout: 5000
 
 development:
   <<: *default
